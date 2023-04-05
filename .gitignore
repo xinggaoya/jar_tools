@@ -1,3 +1,5 @@
 /logs/
 /data/
 /.idea/
+/*.exe
+/go_build_linux

@@ -20,7 +20,6 @@ const filePath = "./data/"
 type Config struct {
 	JarPath string
 	Port    int
-	Pid     int
 	Jvm     string
 }
 
@@ -50,9 +49,6 @@ func GetConfig() (*Config, error) {
 		} else if strings.HasPrefix(line, "port") {
 			port, _ := strconv.Atoi(strings.Split(line, "=")[1])
 			c.Port = port
-		} else if strings.HasPrefix(line, "pid") {
-			pid, _ := strconv.Atoi(strings.Split(line, "=")[1])
-			c.Pid = pid
 		} else if strings.HasPrefix(line, "jvm") {
 			// 去掉第一个=号前字符
 			c.Jvm = strings.SplitN(line, "=", 2)[1]
@@ -82,9 +78,6 @@ func SetConfig(c *Config) error {
 	}
 	if c.Port != 0 {
 		_, err = f.WriteString("port=" + strconv.Itoa(c.Port) + "\n")
-	}
-	if c.Pid != 0 {
-		_, err = f.WriteString("pid=" + strconv.Itoa(c.Pid) + "\n")
 	}
 	if c.Jvm != "" {
 		_, err = f.WriteString("jvm=" + c.Jvm + "\n")

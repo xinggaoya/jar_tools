@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"jar_tools/consts"
 	"jar_tools/file"
@@ -45,12 +46,13 @@ func main() {
 			fmt.Println("Error: 找不到PID文件，请检查")
 			return
 		}
-		if f.Pid != 0 {
-			err := killProcess(f.Pid)
+		pid, err := getJarPidByPort(f.Port)
+		if pid != 0 {
+			err := killProcess(pid)
 			if err != nil {
 				return
 			} else {
-				fmt.Printf("进程 %d 已杀掉\n", f.Pid)
+				fmt.Printf("端口 %d ,进程 %d 已杀掉\n", f.Port, pid)
 			}
 		}
 	} else if input == "3" {
@@ -68,38 +70,47 @@ func main() {
 }
 
 func RunJar(jarPath string, port int) error {
-	if pid, err := FindProcessByPort(port); err == nil {
-		fmt.Printf("Error: 端口 %d 已被占用，进程ID为 %d\n", port, pid)
-		fmt.Printf("是否杀掉进程 %d (y/n)？\n", pid)
-		var input string
-		_, err = fmt.Scanf("\n%s", &input)
-		if input == "y" || input == "Y" {
-			if err := killProcess(pid); err != nil {
-				return err
-			}
-			fmt.Printf("进程 %d 已杀掉\n", pid)
-		} else {
-			return fmt.Errorf("端口 %d 已被占用，操作取消", port)
-		}
-	}
+	//if pid, err := getJarPidByPort(port); err == nil && pid != 0 {
+	//	fmt.Printf("Error: 端口 %d 已被占用，进程ID为 %d\n", port, pid)
+	//	fmt.Printf("是否杀掉进程 %d (y/n)？\n", pid)
+	//	var input string
+	//	_, err = fmt.Scanf("\n%s", &input)
+	//	if input == "y" || input == "Y" {
+	//		if err := killProcess(pid); err != nil {
+	//			return err
+	//		}
+	//		fmt.Printf("进程 %d 已杀掉\n", pid)
+	//	} else {
+	//		return fmt.Errorf("端口 %d 已被占用，操作取消", port)
+	//	}
+	//}
 	f, err := file.GetConfig()
 	jvm := append(strings.Split(f.Jvm, " "), "--server.port="+strconv.Itoa(port))
 	ary := append([]string{"-jar"}, jarPath)
 	ary = append(ary, jvm...)
-	cmd := exec.Command("javaw", ary...)
+	var cmd *exec.Cmd
+	if runtime.GOOS == "windows" {
+		// windows下使用javaw命令，不弹出黑框
+		cmd = exec.Command("javaw", ary...)
+	} else if runtime.GOOS == "linux" {
+		// 用nohup命令，不挂断运行
+		ary = append(ary, "&")
+		// ary前面加上nohup
+		ary = append([]string{"java"}, ary...)
+		cmd = exec.Command("nohup", ary...)
+	} else {
+		return fmt.Errorf("不支持的操作系统: %s", runtime.GOOS)
+	}
 	err = cmd.Start()
-	fmt.Println(cmd.String())
 	if err != nil {
 		return err
 	}
-	pid, err := cmd.Process.Pid, cmd.Process.Release()
 	if err != nil {
 		return err
 	}
-	fmt.Printf("JAR程序已启动，进程ID为 %d\n", pid)
+	fmt.Printf("JAR程序已启动，端口为 %d\n", f.Port)
 	// 写入 PID 文件
 	config := file.NewConfig()
-	config.Pid = pid
 	config.Port = port
 	config.JarPath = jarPath
 	config.Jvm = f.Jvm
@@ -110,47 +121,48 @@ func RunJar(jarPath string, port int) error {
 	return nil
 }
 
-func FindProcessByPort(port int) (int, error) {
-	switch runtime.GOOS {
-	case "windows":
-		cmd := exec.Command("netstat", "-aon")
-		output, err := cmd.Output()
-		if err != nil {
-			return 0, err
-		}
-		// 获取输出结果中的所有行
-		for _, line := range strings.Split(string(output), "\n") {
-			// 按空格拆分每行，获取端口和进程ID
+func getJarPidByPort(port int) (int, error) {
+	var pid int
+
+	// Determine the OS type
+	osType := runtime.GOOS
+
+	// Construct the command to get the PID of the Java Jar process listening on the specified port
+	var cmd *exec.Cmd
+	if osType == "windows" {
+		cmd = exec.Command("cmd", "/C", "netstat -ano | findstr :"+strconv.Itoa(port))
+	} else {
+		cmd = exec.Command("sh", "-c", "lsof -i :"+strconv.Itoa(port)+" | awk '{print $2}'")
+	}
+
+	// Execute the command and get its output
+	out, err := cmd.Output()
+	if err != nil {
+		return pid, err
+	}
+
+	// Parse the output to get the PID of the Java Jar process
+	scanner := bufio.NewScanner(strings.NewReader(string(out)))
+	for scanner.Scan() {
+		line := scanner.Text()
+		if osType == "windows" {
 			fields := strings.Fields(line)
-			if len(fields) >= 4 && strings.Contains(fields[2], fmt.Sprintf(":%d", port)) {
-				pid, err := strconv.Atoi(strings.TrimSuffix(fields[4], "\r"))
-				if err != nil {
-					return 0, err
+			if len(fields) > 4 && strings.Contains(fields[1], ":") {
+				p := strings.Split(fields[1], ":")
+				if p[len(p)-1] == strconv.Itoa(port) {
+					pid, _ = strconv.Atoi(fields[4])
+					break
 				}
-				return pid, nil
+			}
+		} else {
+			if p, err := strconv.Atoi(line); err == nil {
+				pid = p
+				break
 			}
 		}
-	case "linux":
-		cmd := exec.Command("lsof", "-i", fmt.Sprintf(":%d", port))
-		output, err := cmd.Output()
-		if err != nil {
-			return 0, err
-		}
-		lines := strings.Split(string(output), "\n")
-		if len(lines) < 2 {
-			return 0, fmt.Errorf("process not found")
-		}
-		fields := strings.Fields(lines[1])
-		if len(fields) < 2 {
-			return 0, fmt.Errorf("process not found")
-		}
-		pid, err := strconv.Atoi(fields[1])
-		if err != nil {
-			return 0, err
-		}
-		return pid, nil
 	}
-	return 0, fmt.Errorf("unsupported operating system")
+
+	return pid, nil
 }
 
 // 根据pid杀掉进程
