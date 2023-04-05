@@ -1,0 +1,151 @@
+2023-04-05 01:25:07,273 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 01:25:07,281 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 01:25:07,704 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 01:25:07,705 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 01:25:07,759 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 01:25:07,760 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 01:25:07,923 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 01:25:07,925 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 01:25:07,952 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 01:25:07,953 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 01:55:04,757 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 01:55:04,771 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 01:55:05,499 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 01:55:05,500 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 01:55:05,657 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 01:55:05,658 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 01:55:05,990 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 01:55:05,994 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 01:55:06,168 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 01:55:06,170 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:14:01,310 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 02:14:01,318 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:14:01,863 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 02:14:01,863 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:14:02,097 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 02:14:02,101 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:14:02,310 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 02:14:02,311 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:14:02,354 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 02:14:02,354 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:14:13,861 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8000 is already in use
+2023-04-05 02:17:42,917 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 02:17:42,928 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:17:43,364 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 02:17:43,364 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:17:43,443 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 02:17:43,444 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:17:43,740 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 02:17:43,741 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:17:43,830 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 02:17:43,831 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:17:52,795 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8000 is already in use
+2023-04-05 02:23:59,354 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 02:23:59,363 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:23:59,950 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 02:23:59,953 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:00,083 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 02:24:00,083 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:00,292 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 02:24:00,293 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:00,358 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 02:24:00,359 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:10,670 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8000 is already in use
+2023-04-05 02:24:17,297 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 02:24:17,306 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:17,814 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 02:24:17,815 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:17,897 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 02:24:17,897 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:18,018 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 02:24:18,019 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:18,046 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 02:24:18,047 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:27,755 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8000 is already in use
+2023-04-05 02:24:28,114 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 02:24:28,125 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:28,539 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 02:24:28,539 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:28,599 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 02:24:28,600 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:28,816 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 02:24:28,818 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:28,919 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 02:24:28,920 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:37,896 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8000 is already in use
+2023-04-05 02:24:46,582 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 02:24:46,591 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:46,984 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 02:24:46,984 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:47,038 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 02:24:47,039 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:47,246 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 02:24:47,246 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:47,276 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 02:24:47,277 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:24:56,606 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8000 is already in use
+2023-04-05 02:25:09,852 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 02:25:09,868 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:25:10,759 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 02:25:10,760 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:25:10,913 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 02:25:10,915 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:25:11,149 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 02:25:11,245 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:25:11,438 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 02:25:11,440 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:25:25,378 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8000 is already in use
+2023-04-05 02:28:47,636 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 02:28:47,645 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:28:48,133 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 02:28:48,135 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:28:48,201 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 02:28:48,201 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:28:48,352 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 02:28:48,352 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:28:48,369 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 02:28:48,370 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:28:57,473 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8000 is already in use
+2023-04-05 02:30:42,072 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 02:30:42,082 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:30:42,642 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 02:30:42,642 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:30:42,766 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 02:30:42,767 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:30:42,897 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 02:30:42,898 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:30:43,037 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 02:30:43,038 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:30:51,194 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8000 is already in use
+2023-04-05 02:34:31,176 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 02:34:31,186 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:34:31,633 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 02:34:31,633 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:34:31,778 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 02:34:31,779 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:34:31,923 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 02:34:31,924 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:34:31,956 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 02:34:31,956 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:34:41,132 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8000 is already in use
+2023-04-05 02:48:02,758 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 02:48:02,767 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:48:03,196 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 02:48:03,196 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:48:03,262 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 02:48:03,262 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:48:03,410 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 02:48:03,411 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:48:03,447 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 02:48:03,447 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 02:48:12,543 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8000 is already in use
+2023-04-05 12:12:11,269 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.job.entity.SysJobLog".
+2023-04-05 12:12:11,285 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.job.entity.SysJobLog ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 12:12:11,942 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleDept".
+2023-04-05 12:12:11,942 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleDept ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 12:12:12,069 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysRoleMenu".
+2023-04-05 12:12:12,069 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysRoleMenu ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 12:12:12,188 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserPost".
+2023-04-05 12:12:12,188 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserPost ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-04-05 12:12:12,203 WARN c.b.m.c.m.TableInfoHelper [main] Can not find table primary key in Class: "com.broad.system.entity.SysUserRole".
+2023-04-05 12:12:12,203 WARN c.b.m.c.i.DefaultSqlInjector [main] class com.broad.system.entity.SysUserRole ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
