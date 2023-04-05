@@ -1,8 +1,9 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
+	"jar_tools/consts"
+	"jar_tools/file"
 	"os"
 	"os/exec"
 	"runtime"
@@ -12,62 +13,51 @@ import (
 )
 
 func main() {
-	var jarPath string
-	var port int
-
+	// 作者信息
+	fmt.Printf("%s: %s By 2023\n\n", consts.AppName, consts.AppAuthor)
 	// 选择操作
-	fmt.Printf("请选择操作：\n1. 启动JAR程序\n2. 停止JAR程序\n ")
-	fmt.Print("请输入操作序号: ")
+	fmt.Printf("请选择操作：\n1. 启动JAR程序\n2. 停止JAR程序\n3. 初始化配置\n")
+	fmt.Print("请输入操作序号:")
 	var input string
 	_, err := fmt.Scanf("%s", &input)
 	if err != nil {
 		return
 	}
 	if input == "1" {
-		fmt.Println("请输入JAR文件路径和端口号，例如：./app.jar 8080")
-		_, err = fmt.Scanf("%s %d", &jarPath, &port)
-		if err != nil {
-			fmt.Printf("Error: %s\n", err)
-			return
-		}
-		if _, err := os.Stat(jarPath); os.IsNotExist(err) {
-			fmt.Printf("Error: 找不到指定文件，请检查: %s\n", jarPath)
+		f, _ := file.GetConfig()
+		if _, err := os.Stat(f.JarPath); os.IsNotExist(err) {
+			fmt.Printf("Error: 找不到Jar文件，请检查: %s\n", f.JarPath)
 			return
 		}
 
 		// 执行 JAR 程序
-		if err := RunJar(jarPath, port); err != nil {
+		if err := RunJar(f.JarPath, f.Port); err != nil {
 			fmt.Println(err)
 			return
 		}
 	} else if input == "2" {
 		// 获取 JAR 文件路径和端口号
-		f, err := os.Open("./pid.txt")
+		f, err := file.GetConfig()
 		if err != nil {
 			fmt.Println("Error: 找不到PID文件，请检查")
 			return
 		}
-		defer func(f *os.File) {
-			err := f.Close()
+		if f.Pid != 0 {
+			err := killProcess(f.Pid)
 			if err != nil {
 				return
+			} else {
+				fmt.Printf("进程 %d 已杀掉\n", f.Pid)
 			}
-		}(f)
-		// 读取 PID 文件
-		scanner := bufio.NewScanner(f)
-		for scanner.Scan() {
-			fmt.Printf("检测到 PID 文件，进程ID为 %s\n", scanner.Text())
-			pid, err := strconv.Atoi(scanner.Text())
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			if err := killProcess(pid); err != nil {
-				fmt.Println(err)
-				return
-			}
-			fmt.Printf("进程 %d 已杀掉\n", pid)
 		}
+	} else if input == "3" {
+		// 创建配置文件
+		err := file.InitConfig()
+		if err != nil {
+			return
+		}
+		fmt.Println("配置文件初始化成功")
+		return
 	} else {
 		fmt.Println("Error: 无效的输入")
 		return
@@ -77,9 +67,9 @@ func main() {
 func RunJar(jarPath string, port int) error {
 	if pid, err := FindProcessByPort(port); err == nil {
 		fmt.Printf("Error: 端口 %d 已被占用，进程ID为 %d\n", port, pid)
-		fmt.Printf("是否杀掉进程 %d (y/n)？", pid)
+		fmt.Printf("是否杀掉进程 %d (y/n)？\n", pid)
 		var input string
-		_, err = fmt.Scanln("%d", &input)
+		_, err = fmt.Scanf("\n%s", &input)
 		if input == "y" || input == "Y" {
 			if err := killProcess(pid); err != nil {
 				return err
@@ -89,8 +79,9 @@ func RunJar(jarPath string, port int) error {
 			return fmt.Errorf("端口 %d 已被占用，操作取消", port)
 		}
 	}
-	cmd := exec.Command("javaw", "-jar", jarPath)
-	err := cmd.Start()
+	f, err := file.GetConfig()
+	cmd := exec.Command("javaw", "-jar", jarPath, f.Jvm)
+	err = cmd.Start()
 	if err != nil {
 		return err
 	}
@@ -100,16 +91,12 @@ func RunJar(jarPath string, port int) error {
 	}
 	fmt.Printf("JAR程序已启动，进程ID为 %d\n", pid)
 	// 写入 PID 文件
-	f, err := os.Create("./pid.txt")
-	_, err = f.Write([]byte(strconv.Itoa(pid)))
+	config := file.NewConfig()
+	config.Pid = pid
+	err = file.SetConfig(config)
 	if err != nil {
-		return err
+		return fmt.Errorf("写入 PID 文件失败: %s", err)
 	}
-	err = f.Close()
-	if err != nil {
-		return err
-	}
-	fmt.Println("PID文件已写入")
 	return nil
 }
 
