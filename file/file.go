@@ -48,16 +48,10 @@ func GetConfig() (*Config, error) {
 		if strings.HasPrefix(line, "jarPath") {
 			c.JarPath = strings.Split(line, "=")[1]
 		} else if strings.HasPrefix(line, "port") {
-			port, err := strconv.Atoi(strings.Split(line, "=")[1])
-			if err != nil {
-				return nil, errors.New("error: 配置文件中的端口号格式错误")
-			}
+			port, _ := strconv.Atoi(strings.Split(line, "=")[1])
 			c.Port = port
 		} else if strings.HasPrefix(line, "pid") {
-			pid, err := strconv.Atoi(strings.Split(line, "=")[1])
-			if err != nil {
-				return nil, errors.New("error: 配置文件中的PID格式错误")
-			}
+			pid, _ := strconv.Atoi(strings.Split(line, "=")[1])
 			c.Pid = pid
 		} else if strings.HasPrefix(line, "jvm") {
 			c.Jvm = strings.Split(line, "=")[1]

@@ -24,7 +24,11 @@ func main() {
 		return
 	}
 	if input == "1" {
-		f, _ := file.GetConfig()
+		f, err := file.GetConfig()
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
 		if _, err := os.Stat(f.JarPath); os.IsNotExist(err) {
 			fmt.Printf("Error: 找不到Jar文件，请检查: %s\n", f.JarPath)
 			return
