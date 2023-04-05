@@ -54,7 +54,8 @@ func GetConfig() (*Config, error) {
 			pid, _ := strconv.Atoi(strings.Split(line, "=")[1])
 			c.Pid = pid
 		} else if strings.HasPrefix(line, "jvm") {
-			c.Jvm = strings.Split(line, "=")[1]
+			// 去掉第一个=号前字符
+			c.Jvm = strings.SplitN(line, "=", 2)[1]
 		}
 
 	}

@@ -9,7 +9,6 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
-	"syscall"
 )
 
 func main() {
@@ -84,8 +83,12 @@ func RunJar(jarPath string, port int) error {
 		}
 	}
 	f, err := file.GetConfig()
-	cmd := exec.Command("javaw", "-jar", jarPath, f.Jvm)
+	jvm := append(strings.Split(f.Jvm, " "), "--server.port="+strconv.Itoa(port))
+	ary := append([]string{"-jar"}, jarPath)
+	ary = append(ary, jvm...)
+	cmd := exec.Command("javaw", ary...)
 	err = cmd.Start()
+	fmt.Println(cmd.String())
 	if err != nil {
 		return err
 	}
@@ -97,6 +100,9 @@ func RunJar(jarPath string, port int) error {
 	// 写入 PID 文件
 	config := file.NewConfig()
 	config.Pid = pid
+	config.Port = port
+	config.JarPath = jarPath
+	config.Jvm = f.Jvm
 	err = file.SetConfig(config)
 	if err != nil {
 		return fmt.Errorf("写入 PID 文件失败: %s", err)
@@ -158,6 +164,6 @@ func killProcess(pid int) error {
 	default:
 		return os.ErrInvalid
 	}
-	cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
+	//cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 	return cmd.Run()
 }
