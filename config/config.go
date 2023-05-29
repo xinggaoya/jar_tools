@@ -4,7 +4,7 @@
   @desc:
 **/
 
-package file
+package config
 
 import (
 	"bufio"
@@ -28,11 +28,12 @@ func NewConfig() *Config {
 }
 
 // GetConfig 读取配置文件
-func GetConfig() (*Config, error) {
+func GetConfig() *Config {
 	c := &Config{}
 	f, err := os.Open(filePath + "config.txt")
 	if err != nil {
-		return nil, errors.New("error: 找不到配置文件，请检查")
+		fmt.Println("Error: 找不到配置文件，请检查")
+		return nil
 	}
 	defer func(f *os.File) {
 		err := f.Close()
@@ -55,7 +56,7 @@ func GetConfig() (*Config, error) {
 		}
 
 	}
-	return c, nil
+	return c
 }
 
 // SetConfig 写入配置文件
