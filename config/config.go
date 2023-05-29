@@ -8,7 +8,6 @@ package config
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -60,13 +59,13 @@ func GetConfig() *Config {
 }
 
 // SetConfig 写入配置文件
-func SetConfig(c *Config) error {
+func SetConfig(c *Config) {
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		err = os.Mkdir(filePath, 0755)
 	}
 	f, err := os.Create(filePath + "config.txt")
 	if err != nil {
-		return errors.New("error: 创建配置文件失败")
+		fmt.Errorf("error: 创建配置文件失败")
 	}
 	defer func(f *os.File) {
 		err := f.Close()
@@ -84,19 +83,18 @@ func SetConfig(c *Config) error {
 		_, err = f.WriteString("jvm=" + c.Jvm + "\n")
 	}
 	if err != nil {
-		return errors.New("error: 写入配置文件失败")
+		fmt.Errorf("error: 写入配置文件失败")
 	}
-	return nil
 }
 
 // InitConfig 初始化配置文件
-func InitConfig() error {
+func InitConfig() {
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		err = os.Mkdir(filePath, 0755)
 	}
 	f, err := os.Create(filePath + "config.txt")
 	if err != nil {
-		return fmt.Errorf("error: 创建配置文件失败")
+		fmt.Errorf("error: 创建配置文件失败")
 	}
 	defer func(f *os.File) {
 		err := f.Close()
@@ -109,7 +107,12 @@ func InitConfig() error {
 	_, err = f.WriteString("pid=" + "\n")
 	_, err = f.WriteString("jvm=" + "\n")
 	if err != nil {
-		return fmt.Errorf("error: 写入配置文件失败")
+		fmt.Errorf("error: 写入配置文件失败")
 	}
-	return nil
+}
+
+// IsExist 判断文件或文件夹是否存在
+func IsExist() bool {
+	_, err := os.Stat(filePath)
+	return err == nil || os.IsExist(err)
 }
