@@ -5,6 +5,8 @@ import (
 	"jar_tools/config"
 	"jar_tools/utils/jarUtil"
 	"os"
+	"os/exec"
+	"runtime"
 )
 
 /**
@@ -26,7 +28,9 @@ func Start(input string) {
 			fmt.Println(err)
 			return
 		}
-	} else if input == "2" {
+		return
+	}
+	if input == "2" {
 		// 获取 JAR 文件路径和端口号
 		f := config.GetConfig()
 		pid := jarUtil.GetJarPidByPort(f.Port)
@@ -38,13 +42,50 @@ func Start(input string) {
 				fmt.Printf("端口 %d ,进程 %d 已杀掉\n", f.Port, pid)
 			}
 		}
-	} else if input == "3" {
-		// 创建配置文件
-		config.InitConfig()
-		fmt.Println("配置文件初始化成功")
-		return
-	} else {
-		fmt.Println("Error: 无效的输入")
 		return
 	}
+	if input == "3" {
+		// 设置开机自启
+		var script string
+		if runtime.GOOS == "windows" {
+			script = "@echo off\nstart /b myprogram.exe"
+			createStartupScript("C:\\Users\\10322\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup", script)
+		} else if runtime.GOOS == "linux" {
+			script = "#!/bin/bash\n./myprogram &"
+			createStartupScript("$HOME/.config/autostart", script)
+		} else {
+			fmt.Println("Unsupported operating system")
+			os.Exit(1)
+		}
+		return
+	}
+	fmt.Println("Error: 无效的输入")
+	return
+}
+
+func createStartupScript(path, script string) error {
+	err := os.MkdirAll(path, 0755)
+	if err != nil {
+		return err
+	}
+
+	file, err := os.Create(fmt.Sprintf("%v/%v", path, "myprogram.desktop"))
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	_, err = file.WriteString(script)
+	if err != nil {
+		return err
+	}
+
+	if runtime.GOOS == "linux" {
+		cmd := exec.Command("chmod", "+x", fmt.Sprintf("%v/%v", path, "myprogram.desktop"))
+		err = cmd.Run()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

@@ -28,7 +28,7 @@ func Run() {
 	// 解析命令行参数
 	if parserUtil.ParseArgs() {
 		// 选择操作
-		fmt.Printf("请选择操作：\n1. 启动JAR程序\n2. 停止JAR程序\n3. 初始化配置\n")
+		fmt.Printf("请选择操作：\n1. 启动JAR程序\n2. 停止JAR程序\n3. 开机自启\n")
 		input := inputUtil.GetInputWithPrompt("请输入操作序号:")
 		app.Start(input)
 	}
