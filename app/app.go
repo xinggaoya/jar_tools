@@ -3,10 +3,12 @@ package app
 import (
 	"fmt"
 	"jar_tools/config"
+	"jar_tools/consts"
+	"jar_tools/utils/fileUtil"
 	"jar_tools/utils/jarUtil"
+	"jar_tools/utils/osUtil"
+	"jar_tools/utils/scriptUtil"
 	"os"
-	"os/exec"
-	"runtime"
 )
 
 /**
@@ -18,11 +20,11 @@ import (
 func Start(input string) {
 	if input == "1" {
 		f := config.GetConfig()
-		if _, err := os.Stat(f.JarPath); os.IsNotExist(err) {
-			fmt.Printf("Error: 找不到Jar文件，请检查: %s\n", f.JarPath)
+		path := fileUtil.GetCurrentDirectory() + "\\" + f.JarPath
+		if _, err := os.Stat(path); os.IsNotExist(err) {
+			fmt.Printf("Error: 找不到Jar文件，请检查: %s\n", path)
 			return
 		}
-
 		// 执行 JAR 程序
 		if err := jarUtil.RunJar(f.JarPath, f.Port); err != nil {
 			fmt.Println(err)
@@ -45,47 +47,29 @@ func Start(input string) {
 		return
 	}
 	if input == "3" {
-		// 设置开机自启
-		var script string
-		if runtime.GOOS == "windows" {
-			script = "@echo off\nstart /b myprogram.exe"
-			createStartupScript("C:\\Users\\10322\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup", script)
-		} else if runtime.GOOS == "linux" {
-			script = "#!/bin/bash\n./myprogram &"
-			createStartupScript("$HOME/.config/autostart", script)
+		if scriptUtil.CheckStartupScript() {
+			scriptUtil.DeleteStartupScript()
 		} else {
-			fmt.Println("Unsupported operating system")
+			osType := osUtil.GetOsType()
+			if osType == consts.OsTypeWindows {
+				scriptUtil.CreateWindowsStartupScript()
+				return
+			}
+			if osType == consts.OsTypeLinux {
+				scriptUtil.CreateLinuxStartupScript()
+				return
+			}
+
+			fmt.Println("Error: 暂不支持该操作系统")
 			os.Exit(1)
 		}
 		return
 	}
+	// 删除启动脚本
+	if input == "4" {
+		scriptUtil.DeleteStartupScript()
+		return
+	}
 	fmt.Println("Error: 无效的输入")
 	return
-}
-
-func createStartupScript(path, script string) error {
-	err := os.MkdirAll(path, 0755)
-	if err != nil {
-		return err
-	}
-
-	file, err := os.Create(fmt.Sprintf("%v/%v", path, "myprogram.desktop"))
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	_, err = file.WriteString(script)
-	if err != nil {
-		return err
-	}
-
-	if runtime.GOOS == "linux" {
-		cmd := exec.Command("chmod", "+x", fmt.Sprintf("%v/%v", path, "myprogram.desktop"))
-		err = cmd.Run()
-		if err != nil {
-			return err
-		}
-	}
-	return nil
 }

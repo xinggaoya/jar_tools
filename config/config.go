@@ -9,17 +9,22 @@ package config
 import (
 	"bufio"
 	"fmt"
+	"jar_tools/utils/fileUtil"
 	"os"
 	"strconv"
 	"strings"
 )
 
-const filePath = "./data/"
+// 获取程序目录
+var workPath = fileUtil.GetCurrentDirectory()
+
+var filePath = workPath + "\\data\\"
 
 type Config struct {
-	JarPath string
-	Port    int
-	Jvm     string
+	JarPath    string
+	Port       int
+	Jvm        string
+	ScriptName string
 }
 
 func NewConfig() *Config {
@@ -45,13 +50,16 @@ func GetConfig() *Config {
 	for scanner.Scan() {
 		line := scanner.Text()
 		if strings.HasPrefix(line, "jarPath") {
-			c.JarPath = strings.Split(line, "=")[1]
-		} else if strings.HasPrefix(line, "port") {
-			port, _ := strconv.Atoi(strings.Split(line, "=")[1])
-			c.Port = port
-		} else if strings.HasPrefix(line, "jvm") {
-			// 去掉第一个=号前字符
+			c.JarPath = strings.SplitN(line, "=", 2)[1]
+		}
+		if strings.HasPrefix(line, "port") {
+			c.Port, _ = strconv.Atoi(strings.SplitN(line, "=", 2)[1])
+		}
+		if strings.HasPrefix(line, "jvm") {
 			c.Jvm = strings.SplitN(line, "=", 2)[1]
+		}
+		if strings.HasPrefix(line, "scriptName") {
+			c.ScriptName = strings.SplitN(line, "=", 2)[1]
 		}
 
 	}
@@ -60,6 +68,7 @@ func GetConfig() *Config {
 
 // SetConfig 写入配置文件
 func SetConfig(c *Config) {
+	config := GetConfig()
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		err = os.Mkdir(filePath, 0755)
 	}
@@ -74,17 +83,21 @@ func SetConfig(c *Config) {
 		}
 	}(f)
 	if c.JarPath != "" {
-		_, err = f.WriteString("jarPath=" + c.JarPath + "\n")
+		config.JarPath = c.JarPath
 	}
 	if c.Port != 0 {
-		_, err = f.WriteString("port=" + strconv.Itoa(c.Port) + "\n")
+		config.Port = c.Port
 	}
 	if c.Jvm != "" {
-		_, err = f.WriteString("jvm=" + c.Jvm + "\n")
+		config.Jvm = c.Jvm
 	}
-	if err != nil {
-		fmt.Errorf("error: 写入配置文件失败")
+	if c.ScriptName != "" {
+		config.ScriptName = c.ScriptName
 	}
+	_, err = f.WriteString("jarPath=" + config.JarPath + "\n")
+	_, err = f.WriteString("port=" + strconv.Itoa(config.Port) + "\n")
+	_, err = f.WriteString("jvm=" + config.Jvm + "\n")
+	_, err = f.WriteString("scriptName=" + config.ScriptName + "\n")
 }
 
 // InitConfig 初始化配置文件
@@ -104,7 +117,6 @@ func InitConfig() {
 	}(f)
 	_, err = f.WriteString("jarPath=" + "\n")
 	_, err = f.WriteString("port=" + "\n")
-	_, err = f.WriteString("pid=" + "\n")
 	_, err = f.WriteString("jvm=" + "\n")
 	if err != nil {
 		fmt.Errorf("error: 写入配置文件失败")

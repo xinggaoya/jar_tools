@@ -7,6 +7,7 @@ import (
 	"jar_tools/consts"
 	"jar_tools/utils/inputUtil"
 	"jar_tools/utils/parserUtil"
+	"jar_tools/utils/scriptUtil"
 )
 
 /**
@@ -17,6 +18,7 @@ import (
 func Run() {
 	// 作者信息
 	fmt.Printf("%s: %s By 2023\n\n", consts.AppName, consts.AppAuthor)
+
 	// 判断配置文件是否存在
 	if !config.IsExist() {
 		config.InitConfig()
@@ -28,7 +30,13 @@ func Run() {
 	// 解析命令行参数
 	if parserUtil.ParseArgs() {
 		// 选择操作
-		fmt.Printf("请选择操作：\n1. 启动JAR程序\n2. 停止JAR程序\n3. 开机自启\n")
+		var scriptType string
+		if scriptUtil.CheckStartupScript() {
+			scriptType = "删除自启"
+		} else {
+			scriptType = "开机自启"
+		}
+		fmt.Printf("请选择操作：\n1. 启动JAR程序\n2. 停止JAR程序\n3. %s\n", scriptType)
 		input := inputUtil.GetInputWithPrompt("请输入操作序号:")
 		app.Start(input)
 	}

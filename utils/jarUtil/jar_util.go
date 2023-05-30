@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"jar_tools/config"
 	"jar_tools/consts"
+	"jar_tools/utils/fileUtil"
 	"jar_tools/utils/inputUtil"
 	"jar_tools/utils/osUtil"
 	"os"
@@ -19,6 +20,9 @@ import (
 **/
 
 func RunJar(jarPath string, port int) error {
+	wsPath := fileUtil.GetCurrentDirectory()
+	jarName := jarPath
+	jarPath = wsPath + "\\" + jarPath
 	if pid := GetJarPidByPort(port); pid != 0 {
 		// 端口被占用，询问是否杀掉进程
 		msg := fmt.Sprintf("Error: 端口 %d 已被占用，进程ID为 %d\n是否杀掉进程 %d (y/n)?", port, pid, pid)
@@ -61,7 +65,7 @@ func RunJar(jarPath string, port int) error {
 	// 写入 PID 文件
 	cof := config.NewConfig()
 	cof.Port = port
-	cof.JarPath = jarPath
+	cof.JarPath = jarName
 	cof.Jvm = f.Jvm
 	config.SetConfig(cof)
 	return nil
