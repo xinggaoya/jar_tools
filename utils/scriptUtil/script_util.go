@@ -6,6 +6,7 @@ import (
 	"jar_tools/consts"
 	"jar_tools/utils/osUtil"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -48,19 +49,27 @@ func CreateLinuxStartupScript() {
 	exePath, _ := os.Executable()
 	homeDir, _ := os.UserHomeDir()
 	scriptPath := fmt.Sprintf("%s/.config/autostart/%s", homeDir, scriptName)
+	// 设置启动参数
+	startupParams := "-mode=1"
 
 	scriptContent := fmt.Sprintf(`[Desktop Entry]
 Type=Application
-Exec=%s
+Exec=%s %s
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
 Name[en_US]=My App
 Name=My App
 Comment[en_US]=My App Startup Script
-Comment=My App Startup Script`, exePath)
+Comment=My App Startup Script`, exePath, startupParams)
 
-	err := os.WriteFile(scriptPath, []byte(scriptContent), 0644)
+	err := os.MkdirAll(filepath.Dir(scriptPath), 0755)
+	if err != nil {
+		fmt.Println("Failed to create startup directory:", err)
+		return
+	}
+
+	err = os.WriteFile(scriptPath, []byte(scriptContent), 0755)
 	if err != nil {
 		fmt.Println("Failed to create startup script:", err)
 		return

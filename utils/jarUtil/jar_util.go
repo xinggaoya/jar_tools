@@ -22,7 +22,7 @@ import (
 func RunJar(jarPath string, port int) error {
 	wsPath := fileUtil.GetCurrentDirectory()
 	jarName := jarPath
-	jarPath = wsPath + "\\" + jarPath
+	jarPath = wsPath + "/" + jarPath
 	if pid := GetJarPidByPort(port); pid != 0 {
 		// 端口被占用，询问是否杀掉进程
 		msg := fmt.Sprintf("Error: 端口 %d 已被占用，进程ID为 %d\n是否杀掉进程 %d (y/n)?", port, pid, pid)

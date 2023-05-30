@@ -18,7 +18,7 @@ import (
 // 获取程序目录
 var workPath = fileUtil.GetCurrentDirectory()
 
-var filePath = workPath + "\\data\\"
+var filePath = workPath + "/data/"
 
 type Config struct {
 	JarPath    string

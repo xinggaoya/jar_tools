@@ -20,7 +20,7 @@ import (
 func Start(input string) {
 	if input == "1" {
 		f := config.GetConfig()
-		path := fileUtil.GetCurrentDirectory() + "\\" + f.JarPath
+		path := fileUtil.GetCurrentDirectory() + "/" + f.JarPath
 		if _, err := os.Stat(path); os.IsNotExist(err) {
 			fmt.Printf("Error: 找不到Jar文件，请检查: %s\n", path)
 			return
