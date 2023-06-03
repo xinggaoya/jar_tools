@@ -5,8 +5,9 @@ import (
 	"jar_tools/config"
 	"jar_tools/consts"
 	"jar_tools/utils/osUtil"
+	"log"
 	"os"
-	"path/filepath"
+	"os/exec"
 	"time"
 )
 
@@ -19,7 +20,8 @@ func CreateWindowsStartupScript() {
 	// 脚本名称 时间戳+后缀
 	scriptName := fmt.Sprintf("startup_%d.bat", time.Now().Unix())
 	exePath, _ := os.Executable()
-	startupPath := fmt.Sprintf(`C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`, os.Getenv("USERNAME"))
+	userHomeDir, _ := os.UserHomeDir()
+	startupPath := fmt.Sprintf(`%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`, userHomeDir)
 	scriptPath := fmt.Sprintf("%s\\%s", startupPath, scriptName)
 
 	scriptContent := fmt.Sprintf(`@echo off
@@ -40,43 +42,46 @@ exit`, exePath)
 	config.SetConfig(&config.Config{
 		ScriptName: scriptName,
 	})
-	fmt.Println("Windows startup script created successfully!")
+	fmt.Println("开机启动脚本创建成功")
 }
 
+// CreateLinuxStartupScript 创建Linux开机启动脚本
 func CreateLinuxStartupScript() {
 	// 脚本名称 时间戳+后缀
-	scriptName := fmt.Sprintf("startup_%d.desktop", time.Now().Unix())
+	scriptName := fmt.Sprintf("startup_%d", time.Now().Unix())
+	// 获取可执行文件路径
 	exePath, _ := os.Executable()
-	homeDir, _ := os.UserHomeDir()
-	scriptPath := fmt.Sprintf("%s/.config/autostart/%s", homeDir, scriptName)
-	// 设置启动参数
-	startupParams := "-mode=1"
+	// 脚本路径
+	scriptPath := fmt.Sprintf("/etc/systemd/system/%s.service", scriptName)
+	// 脚本内容
+	scriptContent := fmt.Sprintf(`[Unit]
+Description=jar_tools startup script
+After=network.target
 
-	scriptContent := fmt.Sprintf(`[Desktop Entry]
-Type=Application
-Exec=%s %s
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
-Name[en_US]=My App
-Name=My App
-Comment[en_US]=My App Startup Script
-Comment=My App Startup Script`, exePath, startupParams)
+[Service]
+Type=simple
+ExecStart=%s -mode=1
+Restart=always
+RestartSec=1
 
-	err := os.MkdirAll(filepath.Dir(scriptPath), 0755)
+[Install]
+WantedBy=multi-user.target`, exePath)
+
+	// 创建脚本文件夹
+	err := os.MkdirAll("/etc/systemd/system", 0755)
+
+	// 写入脚本文件
+	err = os.WriteFile(scriptPath, []byte(scriptContent), 0644)
 	if err != nil {
-		fmt.Println("Failed to create startup directory:", err)
-		return
+		log.Println("Failed to create startup script:", err)
 	}
+	// 重新加载配置
+	cmd := exec.Command("systemctl", "daemon-reload")
+	err = cmd.Run()
+	// 开启服务
+	cmd = exec.Command("systemctl", "enable", scriptName)
+	err = cmd.Run()
 
-	err = os.WriteFile(scriptPath, []byte(scriptContent), 0755)
-	if err != nil {
-		fmt.Println("Failed to create startup script:", err)
-		return
-	}
-	config.SetConfig(&config.Config{
-		ScriptName: scriptName,
-	})
 	fmt.Println("Linux startup script created successfully!")
 }
 
@@ -90,7 +95,8 @@ func CheckStartupScript() bool {
 	// 获取操作系统类型
 	osType := osUtil.GetOsType()
 	if osType == consts.OsTypeWindows {
-		startupPath := fmt.Sprintf(`C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`, os.Getenv("USERNAME"))
+		userHome, _ := os.UserHomeDir()
+		startupPath := fmt.Sprintf(`%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`, userHome)
 		scriptPath := fmt.Sprintf("%s\\%s", startupPath, f.ScriptName)
 		if _, err := os.Stat(scriptPath); os.IsNotExist(err) {
 			return false
@@ -98,8 +104,7 @@ func CheckStartupScript() bool {
 		return true
 	}
 	if osType == consts.OsTypeLinux {
-		homeDir, _ := os.UserHomeDir()
-		scriptPath := fmt.Sprintf("%s/.config/autostart/%s", homeDir, f.ScriptName)
+		scriptPath := fmt.Sprintf("/etc/systemd/system/%s.service", f.ScriptName)
 		if _, err := os.Stat(scriptPath); os.IsNotExist(err) {
 			return false
 		}
@@ -119,7 +124,8 @@ func DeleteStartupScript() {
 	// 获取操作系统类型
 	osType := osUtil.GetOsType()
 	if osType == consts.OsTypeWindows {
-		startupPath := fmt.Sprintf(`C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`, os.Getenv("USERNAME"))
+		userHome, _ := os.UserHomeDir()
+		startupPath := fmt.Sprintf(`%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`, userHome)
 		scriptPath := fmt.Sprintf("%s\\%s", startupPath, f.ScriptName)
 		if _, err := os.Stat(scriptPath); os.IsNotExist(err) {
 			fmt.Println("Error: 未找到开机启动脚本")
@@ -135,13 +141,18 @@ func DeleteStartupScript() {
 		return
 	}
 	if osType == consts.OsTypeLinux {
-		homeDir, _ := os.UserHomeDir()
-		scriptPath := fmt.Sprintf("%s/.config/autostart/%s", homeDir, f.ScriptName)
+		scriptPath := fmt.Sprintf("/etc/systemd/system/%s.service", f.ScriptName)
 		if _, err := os.Stat(scriptPath); os.IsNotExist(err) {
 			fmt.Println("Error: 未找到开机启动脚本")
 			return
 		}
 		err := os.Remove(scriptPath)
+		// 重新加载配置
+		cmd := exec.Command("systemctl", "daemon-reload")
+		err = cmd.Run()
+		// 关闭服务
+		cmd = exec.Command("systemctl", "disable", f.ScriptName)
+		err = cmd.Run()
 		if err != nil {
 			fmt.Println("Failed to delete startup script:", err)
 			return
