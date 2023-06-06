@@ -5,9 +5,9 @@ import (
 	"jar_tools/config"
 	"jar_tools/consts"
 	"jar_tools/utils/osUtil"
-	"log"
 	"os"
 	"os/exec"
+	"os/user"
 	"time"
 )
 
@@ -48,41 +48,54 @@ exit`, exePath)
 // CreateLinuxStartupScript 创建Linux开机启动脚本
 func CreateLinuxStartupScript() {
 	// 脚本名称 时间戳+后缀
-	scriptName := fmt.Sprintf("startup_%d", time.Now().Unix())
-	// 获取可执行文件路径
-	exePath, _ := os.Executable()
-	// 脚本路径
-	scriptPath := fmt.Sprintf("/etc/systemd/system/%s.service", scriptName)
-	// 脚本内容
-	scriptContent := fmt.Sprintf(`[Unit]
-Description=jar_tools startup script
-After=network.target
-
-[Service]
-Type=simple
-ExecStart=%s -mode=1
-Restart=always
-RestartSec=1
-
-[Install]
-WantedBy=multi-user.target`, exePath)
-
-	// 创建脚本文件夹
-	err := os.MkdirAll("/etc/systemd/system", 0755)
-
-	// 写入脚本文件
-	err = os.WriteFile(scriptPath, []byte(scriptContent), 0644)
+	serviceName := fmt.Sprintf("startup_%d", time.Now().Unix())
+	// 获取当前可执行文件的路径
+	executablePath, err := os.Executable()
 	if err != nil {
-		log.Println("Failed to create startup script:", err)
+		fmt.Println("无法获取可执行文件路径：", err)
+		return
 	}
-	// 重新加载配置
-	cmd := exec.Command("systemctl", "daemon-reload")
-	err = cmd.Run()
-	// 开启服务
-	cmd = exec.Command("systemctl", "enable", scriptName)
-	err = cmd.Run()
 
-	fmt.Println("Linux startup script created successfully!")
+	// 创建Shell脚本内容
+	scriptContent := `#!/bin/bash
+# 运行当前可执行文件
+%s -mode=1
+`
+
+	// 设置脚本文件路径
+	scriptPath := fmt.Sprintf("/etc/init.d/%s", serviceName)
+
+	// 将可执行文件路径插入到脚本内容中
+	scriptContent = fmt.Sprintf(scriptContent, executablePath)
+
+	// 写入脚本内容到文件
+	err = os.WriteFile(scriptPath, []byte(scriptContent), 0755)
+	if err != nil {
+		fmt.Println("无法写入脚本文件：", err)
+		return
+	}
+	currentUser, err := user.Current()
+	// 检查是否管理员权限
+	if err != nil || currentUser.Uid != "0" {
+		fmt.Println("请使用管理员权限运行此程序")
+		return
+	}
+
+	// 使用update-rc.d命令将脚本添加到启动项
+	cmd := exec.Command("update-rc.d", serviceName, "defaults")
+	err = cmd.Run()
+	if err != nil {
+		fmt.Println("无法设置开机自启：", err)
+		return
+	}
+
+	// 设置配置
+	config.SetConfig(&config.Config{
+		ScriptName: serviceName,
+	})
+
+	// 输出成功消息
+	fmt.Println("已设置开机自启")
 }
 
 // CheckStartupScript 检查开机启动脚本是否存在
@@ -104,11 +117,10 @@ func CheckStartupScript() bool {
 		return true
 	}
 	if osType == consts.OsTypeLinux {
-		scriptPath := fmt.Sprintf("/etc/systemd/system/%s.service", f.ScriptName)
+		scriptPath := fmt.Sprintf("/etc/init.d/%s", f.ScriptName)
 		if _, err := os.Stat(scriptPath); os.IsNotExist(err) {
 			return false
 		}
-		return true
 	}
 	return false
 }
@@ -141,24 +153,29 @@ func DeleteStartupScript() {
 		return
 	}
 	if osType == consts.OsTypeLinux {
-		scriptPath := fmt.Sprintf("/etc/systemd/system/%s.service", f.ScriptName)
+		scriptPath := fmt.Sprintf("/etc/init.d/%s", f.ScriptName)
 		if _, err := os.Stat(scriptPath); os.IsNotExist(err) {
 			fmt.Println("Error: 未找到开机启动脚本")
 			return
 		}
 		err := os.Remove(scriptPath)
-		// 重新加载配置
-		cmd := exec.Command("systemctl", "daemon-reload")
-		err = cmd.Run()
-		// 关闭服务
-		cmd = exec.Command("systemctl", "disable", f.ScriptName)
+		if err != nil {
+			fmt.Println("Failed to delete startup script:", err)
+			return
+		}
+		// 检查是否管理员权限
+		currentUser, err := user.Current()
+		if err != nil || currentUser.Uid != "0" {
+			fmt.Println("请使用管理员权限运行此程序")
+			return
+		}
+		cmd := exec.Command("update-rc.d", f.ScriptName, "remove")
 		err = cmd.Run()
 		if err != nil {
 			fmt.Println("Failed to delete startup script:", err)
 			return
 		}
+		config.GetConfig()
 		fmt.Println("Linux startup script deleted successfully!")
-		return
 	}
-	fmt.Println("Error: 未知的操作系统类型")
 }
