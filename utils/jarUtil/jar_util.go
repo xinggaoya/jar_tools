@@ -45,12 +45,14 @@ func RunJar(jarPath string, port int) error {
 	case consts.OsTypeWindows:
 		// windows下使用javaw命令，不弹出黑框
 		cmd = exec.Command("javaw", ary...)
+		break
 	case consts.OsTypeLinux:
 		// 用nohup命令，不挂断运行
 		ary = append(ary, "&")
 		// ary前面加上nohup
 		ary = append([]string{"java"}, ary...)
 		cmd = exec.Command("nohup", ary...)
+		break
 	default:
 		return fmt.Errorf("不支持的操作系统: %s", osUtil.GetOsType())
 	}
@@ -58,9 +60,7 @@ func RunJar(jarPath string, port int) error {
 	if err != nil {
 		return err
 	}
-	if err != nil {
-		return err
-	}
+	fmt.Printf("执行命令: %s\n", ary)
 	fmt.Printf("JAR程序已启动，端口为 %d\n", f.Port)
 	// 写入 PID 文件
 	cof := config.NewConfig()

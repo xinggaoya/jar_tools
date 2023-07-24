@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"jar_tools/config"
 	"jar_tools/consts"
+	"jar_tools/utils/fileUtil"
 	"jar_tools/utils/osUtil"
 	"os"
 	"os/exec"
@@ -47,33 +48,44 @@ exit`, exePath)
 
 // CreateLinuxStartupScript 创建Linux开机启动脚本
 func CreateLinuxStartupScript() {
+	// 获取文件夹
+	filePath := fileUtil.GetCurrentDirectory()
+	getConfig := config.GetConfig()
 	// 脚本名称 时间戳+后缀
 	serviceName := fmt.Sprintf("startup_%d", time.Now().Unix())
-	// 获取当前可执行文件的路径
-	executablePath, err := os.Executable()
-	if err != nil {
-		fmt.Println("无法获取可执行文件路径：", err)
-		return
-	}
 
-	// 创建Shell脚本内容
-	scriptContent := `#!/bin/bash
-# 运行当前可执行文件
-%s -mode=1
+	// 获取当前可执行文件的路径
+	//executablePath, err := os.Executable()
+	//if err != nil {
+	//	fmt.Println("无法获取可执行文件路径：", err)
+	//	return
+	//}
+
+	// 创建service单元文件内容
+	serviceContent := `[Unit]
+Description=Startup Script for My Program
+
+[Service]
+Type=simple
+ExecStart=nohup java -jar %s &
+
+[Install]
+WantedBy=multi-user.target
 `
 
-	// 设置脚本文件路径
-	scriptPath := fmt.Sprintf("/etc/init.d/%s", serviceName)
+	// 将可执行文件路径插入到service单元文件内容中
+	serviceContent = fmt.Sprintf(serviceContent, filePath+"/"+getConfig.JarPath)
 
-	// 将可执行文件路径插入到脚本内容中
-	scriptContent = fmt.Sprintf(scriptContent, executablePath)
+	// 设置service单元文件路径
+	servicePath := fmt.Sprintf("/etc/systemd/system/%s.service", serviceName)
 
-	// 写入脚本内容到文件
-	err = os.WriteFile(scriptPath, []byte(scriptContent), 0755)
+	// 写入service单元文件内容到文件
+	err := os.WriteFile(servicePath, []byte(serviceContent), 0644)
 	if err != nil {
-		fmt.Println("无法写入脚本文件：", err)
+		fmt.Println("无法写入service单元文件：", err)
 		return
 	}
+
 	currentUser, err := user.Current()
 	// 检查是否管理员权限
 	if err != nil || currentUser.Uid != "0" {
@@ -81,21 +93,17 @@ func CreateLinuxStartupScript() {
 		return
 	}
 
-	// 使用update-rc.d命令将脚本添加到启动项
-	cmd := exec.Command("update-rc.d", serviceName, "defaults")
+	// 启用服务
+	cmd := exec.Command("systemctl", "enable", serviceName+".service")
 	err = cmd.Run()
 	if err != nil {
 		fmt.Println("无法设置开机自启：", err)
 		return
 	}
-
-	// 设置配置
 	config.SetConfig(&config.Config{
-		ScriptName: serviceName,
+		ScriptName: serviceName + ".service",
 	})
-
-	// 输出成功消息
-	fmt.Println("已设置开机自启")
+	fmt.Println("已成功设置开机自启。")
 }
 
 // CheckStartupScript 检查开机启动脚本是否存在
@@ -111,18 +119,20 @@ func CheckStartupScript() bool {
 		userHome, _ := os.UserHomeDir()
 		startupPath := fmt.Sprintf(`%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`, userHome)
 		scriptPath := fmt.Sprintf("%s\\%s", startupPath, f.ScriptName)
+		// 检查文件是否存在
 		if _, err := os.Stat(scriptPath); os.IsNotExist(err) {
 			return false
 		}
-		return true
 	}
 	if osType == consts.OsTypeLinux {
-		scriptPath := fmt.Sprintf("/etc/init.d/%s", f.ScriptName)
+		fmt.Printf("检查Linux开机启动脚本：%s\n", "/etc/systemd/system/"+f.ScriptName)
+		scriptPath := fmt.Sprintf("/etc/systemd/system/%s", f.ScriptName)
+		// 检查文件是否存在
 		if _, err := os.Stat(scriptPath); os.IsNotExist(err) {
 			return false
 		}
 	}
-	return false
+	return true
 }
 
 // DeleteStartupScript 删除开机启动脚本
@@ -148,34 +158,33 @@ func DeleteStartupScript() {
 			fmt.Println("Failed to delete startup script:", err)
 			return
 		}
-		config.GetConfig()
+		config.SetConfig(&config.Config{
+			ScriptName: "",
+		})
 		fmt.Println("Windows startup script deleted successfully!")
 		return
 	}
 	if osType == consts.OsTypeLinux {
-		scriptPath := fmt.Sprintf("/etc/init.d/%s", f.ScriptName)
+		scriptPath := fmt.Sprintf("/etc/systemd/system/%s", f.ScriptName)
 		if _, err := os.Stat(scriptPath); os.IsNotExist(err) {
 			fmt.Println("Error: 未找到开机启动脚本")
 			return
 		}
-		err := os.Remove(scriptPath)
+		// remove service
+		cmd := exec.Command("systemctl", "disable", f.ScriptName)
+		err := cmd.Run()
 		if err != nil {
 			fmt.Println("Failed to delete startup script:", err)
 			return
 		}
-		// 检查是否管理员权限
-		currentUser, err := user.Current()
-		if err != nil || currentUser.Uid != "0" {
-			fmt.Println("请使用管理员权限运行此程序")
-			return
-		}
-		cmd := exec.Command("update-rc.d", f.ScriptName, "remove")
-		err = cmd.Run()
+		err = os.Remove(scriptPath)
 		if err != nil {
 			fmt.Println("Failed to delete startup script:", err)
 			return
 		}
-		config.GetConfig()
+		config.SetConfig(&config.Config{
+			ScriptName: "",
+		})
 		fmt.Println("Linux startup script deleted successfully!")
 	}
 }
