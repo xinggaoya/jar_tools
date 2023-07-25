@@ -125,7 +125,6 @@ func CheckStartupScript() bool {
 		}
 	}
 	if osType == consts.OsTypeLinux {
-		fmt.Printf("检查Linux开机启动脚本：%s\n", "/etc/systemd/system/"+f.ScriptName)
 		scriptPath := fmt.Sprintf("/etc/systemd/system/%s", f.ScriptName)
 		// 检查文件是否存在
 		if _, err := os.Stat(scriptPath); os.IsNotExist(err) {
