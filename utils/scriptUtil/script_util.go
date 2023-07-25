@@ -67,14 +67,16 @@ Description=Startup Script for My Program
 
 [Service]
 Type=simple
-ExecStart=nohup java -jar %s &
+ExecStart=nohup java -jar %s %s %s &
 
 [Install]
 WantedBy=multi-user.target
 `
 
 	// 将可执行文件路径插入到service单元文件内容中
-	serviceContent = fmt.Sprintf(serviceContent, filePath+"/"+getConfig.JarPath)
+	jarPath := fmt.Sprintf("%s/%s", filePath, getConfig.JarPath)
+	port := fmt.Sprintf("--server.port=%d", getConfig.Port)
+	serviceContent = fmt.Sprintf(serviceContent, getConfig.Jvm, jarPath, port)
 
 	// 设置service单元文件路径
 	servicePath := fmt.Sprintf("/etc/systemd/system/%s.service", serviceName)
